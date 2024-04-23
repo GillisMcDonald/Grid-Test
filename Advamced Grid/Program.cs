@@ -1,7 +1,7 @@
-using System.Globalization;
 using System.Numerics;
 
-uint charValue = 0b1000000000000000000000000000000;
+ConsoleKeyInfo input;
+uint charValue = 0b10000000000000000000000000000000;
 
 uint[][] grid =
 [
@@ -31,12 +31,10 @@ Vector2 charPos = new Vector2(0, 0);
 Vector2 prevPos;
 Vector2 charGrid = new Vector2(0, 0);
 Vector2 prevGrid = new Vector2(0, 0);
-ConsoleKeyInfo input;
 
 int bigGridCell = 0;
 
-Console.WriteLine("WSAD to move, E to drop an item.");
-Console.WriteLine("Press enter to begin.");
+Console.WriteLine($"WSAD to move, E to drop an item.\nPress enter to begin.");
 while (true)
 {
     prevPos = charPos;
@@ -102,16 +100,17 @@ while (true)
         Console.WriteLine();
     }
     Console.WriteLine(zoneTitles[(uint)bigGrid.X][(uint)bigGrid.Y]);
+    Console.WriteLine(grid[(int)charGrid.X][(int)charGrid.Y]);
 }
 
 uint placeBomb(uint gridValue, int cell)
 {
-    return gridValue | (uint)1 << (cell + 1);
+    return gridValue | (uint)1 << (cell);
 }
 
 bool isBombHere(uint gridValue, int cell)
 {
-    if ((gridValue & (1 << (cell + 1))) != 0)
+    if ((gridValue & (1 << (cell))) != 0)
     {
         return true;
     }
