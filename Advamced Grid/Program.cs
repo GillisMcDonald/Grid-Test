@@ -34,7 +34,7 @@ Vector2 prevGrid = new Vector2(0, 0);
 
 int bigGridCell = 0;
 
-Console.WriteLine($"WSAD to move, E to drop an item.\nPress enter to begin.");
+Console.WriteLine($"WSAD to move, E to place/remove.\nPress enter to begin.");
 while (true)
 {
     prevPos = charPos;
@@ -62,8 +62,8 @@ while (true)
     }
 
     charPos.X = Math.Min(charPos.X, 49);
-    charPos.X = Math.Max(charPos.X, 0);
     charPos.Y = Math.Min(charPos.Y, 49);
+    charPos.X = Math.Max(charPos.X, 0);
     charPos.Y = Math.Max(charPos.Y, 0);
 
     bigGrid.X = (int)charPos.X / 10;
@@ -77,8 +77,8 @@ while (true)
     charGrid.X = charPos.X % 10;
     charGrid.Y = charPos.Y % 10;
 
-    grid[(int)charGrid.X][(int)charGrid.Y] += charValue;
     grid[(int)prevGrid.X][(int)prevGrid.Y] -= charValue;
+    grid[(int)charGrid.X][(int)charGrid.Y] += charValue;
 
     for (int i = 0; i < grid.Length; i++)
     {
@@ -105,7 +105,7 @@ while (true)
 
 uint placeBomb(uint gridValue, int cell)
 {
-    return gridValue | (uint)1 << (cell);
+    return gridValue ^ (uint)1 << (cell);
 }
 
 bool isBombHere(uint gridValue, int cell)
