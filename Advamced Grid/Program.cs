@@ -79,28 +79,29 @@ while (true)
 
     grid[(int)prevGrid.X][(int)prevGrid.Y] -= charValue;
     grid[(int)charGrid.X][(int)charGrid.Y] += charValue;
-
+Console.WriteLine("▄▄▄▄▄▄▄▄▄▄▄▄");
     for (int i = 0; i < grid.Length; i++)
     {
+        Console.Write("█");
         for (int j = 0; j < grid[i].Length; j++)
         {
             if (grid[i][j] >= charValue)
             {
-                Console.Write("A");
+                Console.Write("G");
             }
             else if (isBombHere(grid[i][j], bigGridCell))
             {
-                Console.Write("+");
+                Console.Write("█");
             }
             else
             {
-                Console.Write("_");
+                Console.Write(" ");
             }
         }
-        Console.WriteLine();
+        Console.WriteLine("█");
     }
+    Console.WriteLine("▀▀▀▀▀▀▀▀▀▀▀▀");
     Console.WriteLine(zoneTitles[(uint)bigGrid.X][(uint)bigGrid.Y]);
-    Console.WriteLine(grid[(int)charGrid.X][(int)charGrid.Y]);
 }
 
 uint placeBomb(uint gridValue, int cell)
