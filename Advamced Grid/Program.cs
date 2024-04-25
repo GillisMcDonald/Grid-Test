@@ -79,7 +79,7 @@ while (true)
 
     grid[(int)prevGrid.X][(int)prevGrid.Y] -= charValue;
     grid[(int)charGrid.X][(int)charGrid.Y] += charValue;
-Console.WriteLine("▄▄▄▄▄▄▄▄▄▄▄▄");
+    Console.WriteLine("▄▄▄▄▄▄▄▄▄▄▄▄");
     for (int i = 0; i < grid.Length; i++)
     {
         Console.Write("█");
