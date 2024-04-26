@@ -34,7 +34,7 @@ Vector2 prevGridPos = new Vector2(0, 0);
 
 int bigGridCell = 0;
 
-Console.WriteLine($"WSAD to move, Space to place/remove. E to reset position. Q to reset canvas\nPress enter to begin.");
+Console.WriteLine($"WSAD to move, Space to place, Z to remove. E to reset position. Q to reset canvas\nPress enter to begin.");
 while (true)
 {
     input = Console.ReadKey();
@@ -60,6 +60,9 @@ while (true)
             break;
         case "Q":
             resetCanvas();
+            break;
+        case "Z":
+            removeBomb();
             break;
     }
     doMathStuff();
@@ -94,7 +97,7 @@ void doMathStuff()
 {
     bigGridPos.X = (int)charWorldPos.X / 10;
     bigGridPos.Y = (int)charWorldPos.Y / 10;
-    bigGridCell = ((int)bigGridPos.X * 5) + (int)bigGridPos.Y;
+    bigGridCell = ((int)bigGridPos.X * zoneTitles.Length) + (int)bigGridPos.Y;
     prevGridPos.X = prevWorldPos.X % 10;
     prevGridPos.Y = prevWorldPos.Y % 10;
     charGridPos.X = charWorldPos.X % 10;
@@ -130,11 +133,20 @@ void drawGrid()
     }
     Console.WriteLine("▀▀▀▀▀▀▀▀▀▀▀▀");
     Console.WriteLine(zoneTitles[(uint)bigGridPos.X][(uint)bigGridPos.Y]);
+    Console.WriteLine(grid[(int)charGridPos.X][(int)charGridPos.Y]);
 }
 
 void placeBomb()
 {
-    grid[(int)charGridPos.X][(int)charGridPos.Y] = grid[(int)charGridPos.X][(int)charGridPos.Y] ^ (uint)1 << bigGridCell;
+    grid[(int)charGridPos.X][(int)charGridPos.Y] = grid[(int)charGridPos.X][(int)charGridPos.Y] | (uint)1 << bigGridCell;
+}
+
+void removeBomb()
+{
+    if ((grid[(int)charGridPos.X][(int)charGridPos.Y] - charValue) >> bigGridCell == 1)
+    {
+        grid[(int)charGridPos.X][(int)charGridPos.Y] = grid[(int)charGridPos.X][(int)charGridPos.Y] - ((uint)1 << bigGridCell);
+    }
 }
 
 bool isBombHere(uint gridValue, int cell)
