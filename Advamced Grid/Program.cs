@@ -34,14 +34,14 @@ Vector2 prevGrid = new Vector2(0, 0);
 
 int bigGridCell = 0;
 
-Console.WriteLine($"WSAD to move, E to place/remove.\nPress enter to begin.");
+Console.WriteLine($"WSAD to move, Space to place/remove. E to reset position. Q to reset canvas\nPress enter to begin.");
 while (true)
 {
     prevPos = charPos;
 
     input = Console.ReadKey();
     Console.Clear();
-
+    
     switch (input.Key.ToString())
     {
         case "W":
@@ -56,8 +56,14 @@ while (true)
         case "D":
             charPos.Y++;
             break;
+        case "Spacebar":
+            placeBomb();
+            break;
         case "E":
-            grid[(int)charGrid.X][(int)charGrid.Y] = placeBomb(grid[(int)charGrid.X][(int)charGrid.Y], bigGridCell);
+            resetPosition();
+            break;
+        case "Q":
+            resetCanvas();
             break;
     }
 
@@ -104,9 +110,9 @@ while (true)
     Console.WriteLine(zoneTitles[(uint)bigGrid.X][(uint)bigGrid.Y]);
 }
 
-uint placeBomb(uint gridValue, int cell)
+void placeBomb()
 {
-    return gridValue ^ (uint)1 << (cell);
+    grid[(int)charGrid.X][(int)charGrid.Y] = grid[(int)charGrid.X][(int)charGrid.Y] ^ (uint)1 << bigGridCell;
 }
 
 bool isBombHere(uint gridValue, int cell)
@@ -116,4 +122,28 @@ bool isBombHere(uint gridValue, int cell)
         return true;
     }
     return false;
+}
+
+void resetPosition()
+{
+    charPos.X = 0;
+    charPos.Y = 0;
+}
+
+void resetCanvas()
+{
+    for (int i = 0; i < grid.Length; i++)
+    {
+        for (int j = 0; j < grid[i].Length; j++)
+        {
+            if(grid[i][j] >= charValue)
+            {
+                grid[i][j] = charValue;
+            }
+            else
+            {
+                grid[i][j] = 0;
+            }
+        }
+    }
 }
